@@ -56,10 +56,13 @@ const categoryIcons = {
 function showScreen(screenId) {
     console.log('Switching to screen:', screenId);
 
-    // Hide all screens
-    document.querySelectorAll('.screen').forEach(screen => {
+    // Force hide all screens first
+    const allScreens = document.querySelectorAll('.screen');
+    allScreens.forEach(screen => {
         screen.classList.remove('active');
         screen.style.display = 'none';
+        screen.style.visibility = 'hidden';
+        screen.style.opacity = '0';
     });
 
     // Show target screen
@@ -67,6 +70,8 @@ function showScreen(screenId) {
     if (targetScreen) {
         targetScreen.classList.add('active');
         targetScreen.style.display = 'block';
+        targetScreen.style.visibility = 'visible';
+        targetScreen.style.opacity = '1';
         currentScreen = screenId;
         console.log('Screen switched to:', screenId);
     } else {

@@ -81,10 +81,12 @@ function showScreen(screenId) {
 
 // Start lesson
 function startLesson() {
+    console.log('🎓 Starting lesson...');
     loadProgress();
     currentQuestionIndex = 0;
     showScreen('question-screen');
     showQuestion();
+    console.log('✅ Lesson started successfully');
 }
 
 // Show current question

@@ -54,14 +54,24 @@ const categoryIcons = {
 
 // Screen management
 function showScreen(screenId) {
+    console.log('Switching to screen:', screenId);
+
     // Hide all screens
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
+        screen.style.display = 'none';
     });
 
     // Show target screen
-    document.getElementById(screenId).classList.add('active');
-    currentScreen = screenId;
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        targetScreen.classList.add('active');
+        targetScreen.style.display = 'block';
+        currentScreen = screenId;
+        console.log('Screen switched to:', screenId);
+    } else {
+        console.error('Screen not found:', screenId);
+    }
 }
 
 // Start lesson

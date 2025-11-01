@@ -12,7 +12,7 @@ A beautiful and interactive web project showcasing modern CSS animations, JavaSc
 
 ## 🚀 Live Demo
 
-[View the live demo](https://your-github-username.github.io/demo-project/)
+[🌐 View the live demo](https://krupnovakatherine.github.io/demo-project/)
 
 ## 🛠️ Technologies Used
 

@@ -38,14 +38,18 @@ body {
 
 /* Screen Management */
 .screen {
-  display: none;
+  display: none !important;
   width: 100%;
   max-width: 400px;
   min-height: 600px;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .screen.active {
-  display: block;
+  display: block !important;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Welcome Screen */

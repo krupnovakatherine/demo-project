@@ -82,11 +82,20 @@ function showScreen(screenId) {
 // Start lesson
 function startLesson() {
     console.log('🎓 Starting lesson...');
-    loadProgress();
-    currentQuestionIndex = 0;
-    showScreen('question-screen');
-    showQuestion();
-    console.log('✅ Lesson started successfully');
+    try {
+        loadProgress();
+        console.log('📊 Progress loaded');
+        currentQuestionIndex = 0;
+        console.log('🔢 Question index reset to 0');
+        showScreen('question-screen');
+        console.log('📱 Screen switched to question-screen');
+        showQuestion();
+        console.log('❓ Question displayed');
+        console.log('✅ Lesson started successfully');
+    } catch (error) {
+        console.error('❌ Error starting lesson:', error);
+        alert('Ошибка при запуске урока: ' + error.message);
+    }
 }
 
 // Show current question

@@ -1,48 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Project - Interactive Cards</title>
+    <title>Учимся с Зайкой Смешинкой - День 1</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🎨 Interactive Demo Cards</h1>
-        <p>Hover over the cards to see the magic!</p>
-
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-content">
-                    <h2>🚀 Technology</h2>
-                    <p>Innovation drives progress</p>
-                </div>
+    <div class="page a5">
+        <header>
+            <div class="bunny">🐰</div>
+            <div>
+                <h1>Учимся с Зайкой Смешинкой</h1>
+                <h2>День 1 — Знакомство</h2>
             </div>
+        </header>
 
-            <div class="card">
-                <div class="card-content">
-                    <h2>🎯 Creativity</h2>
-                    <p>Where imagination meets reality</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content">
-                    <h2>💡 Ideas</h2>
-                    <p>Every great project starts with one</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-content">
-                    <h2>🌟 Excellence</h2>
-                    <p>Striving for perfection in every detail</p>
-                </div>
-            </div>
+        <div class="intro">
+            <p>Привет! Я — Зайка Смешинка. Сегодня мы вместе поиграем и выучим новое!</p>
         </div>
 
-        <button class="action-btn" onclick="showMessage()">Click Me!</button>
-        <p id="message" class="message"></p>
+        <main>
+            <div class="block">
+                <h3>🎨 Цвета и формы (3)</h3>
+                <ol>
+                    <li>Какого цвета яблоко? <button class="opt" onclick="checkAnswer(this, true)">красное</button> <button class="opt" onclick="checkAnswer(this, false)">синий</button></li>
+                    <li>Какая форма — круг? <button class="opt" onclick="checkAnswer(this, true)">Да</button> <button class="opt" onclick="checkAnswer(this, false)">Нет</button></li>
+                    <li>Какого цвета мяч? <button class="opt" onclick="checkAnswer(this, false)">зелёный</button> <button class="opt" onclick="checkAnswer(this, true)">жёлтый</button></li>
+                </ol>
+            </div>
+
+            <div class="block">
+                <h3>🌍 Мир вокруг нас (3)</h3>
+                <ol>
+                    <li>Где растут деревья? <button class="opt" onclick="checkAnswer(this, true)">в лесу</button> <button class="opt" onclick="checkAnswer(this, false)">в воде</button></li>
+                    <li>Кто даёт молоко? <button class="opt" onclick="checkAnswer(this, true)">корова</button> <button class="opt" onclick="checkAnswer(this, false)">рыба</button></li>
+                    <li>Где живёт рыба? <button class="opt" onclick="checkAnswer(this, true)">в воде</button> <button class="opt" onclick="checkAnswer(this, false)">в небе</button></li>
+                </ol>
+            </div>
+
+            <div class="block">
+                <h3>🔢 Учимся считать (3)</h3>
+                <ol>
+                    <li>Сколько пальцев на руке? <button class="opt" onclick="checkAnswer(this, false)">3</button> <button class="opt" onclick="checkAnswer(this, true)">5</button></li>
+                    <li>1 + 1 = ? <button class="opt" onclick="checkAnswer(this, true)">2</button> <button class="opt" onclick="checkAnswer(this, false)">3</button></li>
+                    <li>Сколько у зайца ушей? <button class="opt" onclick="checkAnswer(this, true)">2</button> <button class="opt" onclick="checkAnswer(this, false)">4</button></li>
+                </ol>
+            </div>
+
+            <div class="block">
+                <h3>🗣️ Развиваем речь (3)</h3>
+                <ol>
+                    <li>Как скажешь: "мама" — это кто? <button class="opt" onclick="checkAnswer(this, true)">мама</button> <button class="opt" onclick="checkAnswer(this, false)">папа</button></li>
+                    <li>Что делает кот? <button class="opt" onclick="checkAnswer(this, true)">мяукает</button> <button class="opt" onclick="checkAnswer(this, false)">лает</button></li>
+                    <li>Подбери рифму к слову "дом": <button class="opt" onclick="checkAnswer(this, false)">чем</button> <button class="opt" onclick="checkAnswer(this, true)">сном</button></li>
+                </ol>
+            </div>
+
+            <div class="block">
+                <h3>🧠 Логика и мышление (3)</h3>
+                <ol>
+                    <li>Что лишнее: яблоко, груша, стул? <button class="opt" onclick="checkAnswer(this, true)">стул</button> <button class="opt" onclick="checkAnswer(this, false)">яблоко</button></li>
+                    <li>Какое животное летает? <button class="opt" onclick="checkAnswer(this, true)">птица</button> <button class="opt" onclick="checkAnswer(this, false)">корова</button></li>
+                    <li>Какой предмет нужен, чтобы писать? <button class="opt" onclick="checkAnswer(this, false)">ложка</button> <button class="opt" onclick="checkAnswer(this, true)">карандаш</button></li>
+                </ol>
+            </div>
+
+            <div class="block">
+                <h3>😊 Эмоции и общение (3)</h3>
+                <ol>
+                    <li>Если ты улыбаешься — ты: <button class="opt" onclick="checkAnswer(this, true)">рад</button> <button class="opt" onclick="checkAnswer(this, false)">зол</button></li>
+                    <li>Если тебе грустно — ты можешь: <button class="opt" onclick="checkAnswer(this, true)">поговорить</button> <button class="opt" onclick="checkAnswer(this, false)">кушать</button></li>
+                    <li>Что помогает дружить? <button class="opt" onclick="checkAnswer(this, true)">доброта</button> <button class="opt" onclick="checkAnswer(this, false)">ссора</button></li>
+                </ol>
+            </div>
+
+            <div class="block">
+                <h3>🎮 Мини-игры</h3>
+                <div class="mini-games">
+                    <button class="game-btn" onclick="playGame('carrot')">🥕 Найди 3 морковки</button>
+                    <button class="game-btn" onclick="playGame('odd')">🤔 Что лишнее?</button>
+                </div>
+            </div>
+
+            <div class="stars">
+                <strong>⭐ Звёздочки</strong>
+                <div>Звёзд: <span id="star-count">0</span> / 8</div>
+                <div id="star-row"></div>
+                <button id="reset" onclick="resetProgress()">Сбросить прогресс</button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="note">Откройте файл в браузере (двойной клик по index.html) или откройте в Acrobat Reader для звуков.</div>
+        </footer>
     </div>
 
     <script src="script.js"></script>

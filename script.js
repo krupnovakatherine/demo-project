@@ -1,103 +1,163 @@
-// Interactive functionality for the demo project
+// Educational app functionality for "Учимся с Зайкой Смешинкой"
 
-// Function to show a random message when button is clicked
-function showMessage() {
-    const messages = [
-        "🎉 Wow! You clicked the button!",
-        "🚀 Amazing! Keep exploring!",
-        "💡 Great choice! Technology is fun!",
-        "🌟 You're awesome! Thanks for trying!",
-        "🎨 Creativity is in the air!",
-        "💪 Keep up the great work!"
-    ];
+// Progress tracking
+let stars = 0;
+const totalStars = 8;
+let answeredQuestions = new Set();
 
-    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    const messageElement = document.getElementById('message');
+// Load progress from localStorage
+function loadProgress() {
+    const savedStars = localStorage.getItem('bunnyStars');
+    const savedAnswers = localStorage.getItem('bunnyAnswers');
 
-    messageElement.textContent = randomMessage;
-    messageElement.classList.add('show');
-
-    // Hide message after 3 seconds
-    setTimeout(() => {
-        messageElement.classList.remove('show');
-    }, 3000);
+    if (savedStars) {
+        stars = parseInt(savedStars);
+    }
+    if (savedAnswers) {
+        answeredQuestions = new Set(JSON.parse(savedAnswers));
+    }
+    updateUI();
 }
 
-// Add click effects to cards
-document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.card');
+// Save progress to localStorage
+function saveProgress() {
+    localStorage.setItem('bunnyStars', stars.toString());
+    localStorage.setItem('bunnyAnswers', JSON.stringify([...answeredQuestions]));
+}
 
-    cards.forEach((card, index) => {
-        // Add click animation
-        card.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-        });
+// Update UI elements
+function updateUI() {
+    document.getElementById('star-count').textContent = stars;
+    updateStarDisplay();
+    updateAnsweredQuestions();
+}
 
-        // Add keyboard accessibility
-        card.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                this.click();
-            }
-        });
+// Update star display
+function updateStarDisplay() {
+    const starRow = document.getElementById('star-row');
+    starRow.innerHTML = '';
 
-        card.setAttribute('tabindex', '0');
+    for (let i = 0; i < totalStars; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.textContent = i < stars ? '⭐' : '☆';
+        starRow.appendChild(star);
+    }
+}
+
+// Update answered questions
+function updateAnsweredQuestions() {
+    document.querySelectorAll('.opt').forEach(btn => {
+        const questionId = btn.closest('li').textContent.trim();
+        if (answeredQuestions.has(questionId)) {
+            btn.disabled = true;
+        }
+    });
+}
+
+// Check answer and award star
+function checkAnswer(button, isCorrect) {
+    const questionLi = button.closest('li');
+    const questionId = questionLi.textContent.trim();
+
+    // Prevent multiple answers for same question
+    if (answeredQuestions.has(questionId)) {
+        return;
+    }
+
+    // Disable all options for this question
+    questionLi.querySelectorAll('.opt').forEach(btn => {
+        btn.disabled = true;
     });
 
-    // Add some fun animations on load
-    setTimeout(() => {
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.style.animation = 'bounce 0.6s ease';
-            }, index * 100);
-        });
-    }, 1000);
-});
+    // Visual feedback
+    if (isCorrect) {
+        button.style.background = '#4CAF50';
+        button.style.color = 'white';
+        stars++;
+        answeredQuestions.add(questionId);
+        saveProgress();
+        updateUI();
 
-// Add bounce animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-10px);
-        }
-        60% {
-            transform: translateY(-5px);
-        }
+        // Celebration effect
+        createParticles(button);
+        playSound('success');
+    } else {
+        button.style.background = '#f44336';
+        button.style.color = 'white';
+
+        // Show correct answer
+        setTimeout(() => {
+            questionLi.querySelectorAll('.opt').forEach(btn => {
+                const isCorrectBtn = btn.onclick.toString().includes('true');
+                if (isCorrectBtn) {
+                    btn.style.background = '#4CAF50';
+                    btn.style.color = 'white';
+                }
+            });
+        }, 1000);
     }
-`;
-document.head.appendChild(style);
+}
 
-// Add particle effect on button click
-function createParticles() {
-    const button = document.querySelector('.action-btn');
+// Mini-games functionality
+function playGame(gameType) {
+    let message = '';
+
+    switch(gameType) {
+        case 'carrot':
+            message = '🥕 Найди 3 морковки на картинке!\n(Игра запускается...)';
+            // Here you would implement the actual game
+            break;
+        case 'odd':
+            message = '🤔 Что лишнее: яблоко, груша, машина?\n(Игра запускается...)';
+            // Here you would implement the actual game
+            break;
+    }
+
+    alert(message);
+}
+
+// Reset progress
+function resetProgress() {
+    if (confirm('Вы уверены, что хотите сбросить весь прогресс?')) {
+        stars = 0;
+        answeredQuestions.clear();
+        saveProgress();
+        updateUI();
+
+        // Re-enable all buttons
+        document.querySelectorAll('.opt').forEach(btn => {
+            btn.disabled = false;
+            btn.style.background = 'white';
+            btn.style.color = 'inherit';
+        });
+    }
+}
+
+// Particle effect for correct answers
+function createParticles(button) {
     const rect = button.getBoundingClientRect();
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         const particle = document.createElement('div');
         particle.style.cssText = `
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #ffd700;
+            width: 6px;
+            height: 6px;
+            background: #FFD700;
             border-radius: 50%;
             pointer-events: none;
             animation: particle 1s ease-out forwards;
             left: ${rect.left + rect.width / 2}px;
             top: ${rect.top + rect.height / 2}px;
+            z-index: 1000;
         `;
 
         document.body.appendChild(particle);
 
         // Random direction
-        const angle = (Math.PI * 2 * i) / 10;
-        const distance = 50 + Math.random() * 50;
+        const angle = (Math.PI * 2 * i) / 8;
+        const distance = 60 + Math.random() * 40;
         particle.style.setProperty('--x', Math.cos(angle) * distance + 'px');
         particle.style.setProperty('--y', Math.sin(angle) * distance + 'px');
 
@@ -105,30 +165,32 @@ function createParticles() {
     }
 }
 
-// Update button click to include particles
+// Sound effects (placeholder)
+function playSound(type) {
+    // In a real app, you would play actual sound files
+    console.log(`🔊 Playing ${type} sound`);
+}
+
+// Initialize app
 document.addEventListener('DOMContentLoaded', function() {
-    const originalButton = document.querySelector('.action-btn');
-    if (originalButton) {
-        originalButton.addEventListener('click', createParticles);
-    }
+    loadProgress();
+
+    // Add particle animation styles
+    const particleStyle = document.createElement('style');
+    particleStyle.textContent = `
+        @keyframes particle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) scale(0);
+            }
+        }
+    `;
+    document.head.appendChild(particleStyle);
+
+    console.log('🐰 Зайка Смешинка загружена! Приятного обучения!');
+    console.log('💡 Отвечайте на вопросы и собирайте звёздочки!');
 });
-
-// Add particle animation
-const particleStyle = document.createElement('style');
-particleStyle.textContent = `
-    @keyframes particle {
-        0% {
-            opacity: 1;
-            transform: translate(0, 0) scale(1);
-        }
-        100% {
-            opacity: 0;
-            transform: translate(var(--x), var(--y)) scale(0);
-        }
-    }
-`;
-document.head.appendChild(particleStyle);
-
-// Console message for developers
-console.log('🎨 Demo project loaded! Check out the interactive features.');
-console.log('💡 Pro tip: Try clicking the cards and the button for different effects!');
